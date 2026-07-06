@@ -28,11 +28,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Растягивает видео без искажений на весь экран */
+            object-fit: cover;
             z-index: 1;
         }
 
-        /* Затемнение фона для лучшей читаемости текста */
+        /* Затемнение фона */
         .overlay {
             position: absolute;
             top: 0;
@@ -53,17 +53,16 @@
             font-weight: bold;
             color: #ffffff;
             text-align: center;
-            background: rgba(0, 175, 240, 0.85); /* Полупрозрачный фирменный цвет OnlyFans */
+            background: rgba(0, 175, 240, 0.85); 
             text-decoration: none;
             border-radius: 50px;
             box-shadow: 0 10px 30px rgba(0, 175, 240, 0.5);
-            backdrop-filter: blur(5px); /* Эффект размытия стекла за кнопкой */
+            backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
             transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
             max-width: 90%;
-            
-            /* Сдвигаем кнопку вниз примерно на 4 см от центра экрана */
             margin-top: 150px; 
+            cursor: pointer;
         }
 
         .of-button:hover {
@@ -81,17 +80,46 @@
 
     <div class="overlay"></div>
 
-    <a href="https://onlyfans.com/jadelyn" id="of-link" class="of-button">Solo Tu y Yo / Only You and Me 🫶</a>
+    <a id="of-link" class="of-button">Solo Tu y Yo / Only You and Me 🫶</a>
 
     <script>
-        // Принудительное открытие ссылки в дефолтном браузере на Android
         document.getElementById('of-link').addEventListener('click', function(e) {
-            var url = "https://onlyfans.com/jadelyn";
+            e.preventDefault();
             
-            if (/Android/i.test(navigator.userAgent)) {
-                e.preventDefault();
-                window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+            var targetUrl = "https://onlyfans.com/jadelyn";
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            // 1. Проверка на Android
+            if (/Android/i.test(userAgent)) {
+                window.location.href = "intent://" + targetUrl.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+                return;
             }
+
+            // 2. Хак для iOS (iPhone / iPad) внутри ин-апп браузеров (Instagram, TikTok)
+            if (/iPhone|iPad|iPod/i.test(userAgent) && (userAgent.includes('Instagram') || userAgent.includes('FBAN') || userAgent.includes('FBAV') || userAgent.includes('Twitter'))) {
+                
+                // Создаем Blob-файл со скриптом автоматического редиректа
+                var blobContent = `<script>window.location.href="${targetUrl}";<\/script>`;
+                var blob = new Blob([blobContent], { type: 'text/html' });
+                var blobUrl = URL.createObjectURL(blob);
+
+                // Создаем невидимую ссылку для скачивания/открытия Blob
+                var a = document.createElement('a');
+                a.href = blobUrl;
+                // Трюк: заставляем iOS думать, что это скачивание файла, ломая ин-апп контекст
+                a.download = "redirect.html"; 
+                document.body.appendChild(a);
+                a.click();
+                
+                // Мягкий фолбек, если интент загрузки сработал как обычный переход
+                setTimeout(function() {
+                    window.location.href = targetUrl;
+                }, 300);
+                return;
+            }
+
+            // 3. Дефолтный переход для обычных браузеров (ПК, Safari вне Инсты и т.д.)
+            window.location.href = targetUrl;
         });
     </script>
 
