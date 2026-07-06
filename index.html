@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jade ASMR</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #121212;
+            font-family: Arial, sans-serif;
+        }
+        .of-button {
+            display: inline-block;
+            padding: 22px 45px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #00aff0; /* Фирменный цвет OnlyFans */
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 6px 20px rgba(0, 175, 240, 0.4);
+            transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+        }
+        .of-button:hover {
+            background-color: #008cc0;
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 175, 240, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <a href="https://onlyfans.com/jadelyn" id="of-link" class="of-button">Открыть мой OnlyFans</a>
+
+    <script>
+        // Трюк для принудительного открытия в дефолтном браузере на Android
+        document.getElementById('of-link').addEventListener('click', function(e) {
+            // ВНИМАНИЕ: И здесь тоже замени ТВОЙ_НИК на свой юзернейм OnlyFans
+            var url = "https://onlyfans.com/jadelyn";
+            
+            if (/Android/i.test(navigator.userAgent)) {
+                e.preventDefault();
+                window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+            }
+            // На iOS (iPhone) ссылка сработает стандартно.
+        });
+    </script>
+
+</body>
+</html>
