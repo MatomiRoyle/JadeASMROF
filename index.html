@@ -21,7 +21,7 @@
             background-color: #121212;
         }
 
-        /* Настройки для фонового видео */
+        /* Фоновое видео */
         .background-video {
             position: absolute;
             top: 0;
@@ -86,40 +86,24 @@
         document.getElementById('of-link').addEventListener('click', function(e) {
             e.preventDefault();
             
-            var targetUrl = "https://onlyfans.com/jadelyn";
             var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            var openOfUrl = "https://openonlyfans.com/jadelyn";
+            var directOfUrl = "https://onlyfans.com/jadelyn";
 
-            // 1. Проверка на Android
+            // 1. Для Android используем железный Chrome-интент через зеркало openonlyfans
             if (/Android/i.test(userAgent)) {
-                window.location.href = "intent://" + targetUrl.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+                window.location.href = "intent://" + openOfUrl.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
                 return;
             }
 
-            // 2. Хак для iOS (iPhone / iPad) внутри ин-апп браузеров (Instagram, TikTok)
-            if (/iPhone|iPad|iPod/i.test(userAgent) && (userAgent.includes('Instagram') || userAgent.includes('FBAN') || userAgent.includes('FBAV') || userAgent.includes('Twitter'))) {
-                
-                // Создаем Blob-файл со скриптом автоматического редиректа
-                var blobContent = `<script>window.location.href="${targetUrl}";<\/script>`;
-                var blob = new Blob([blobContent], { type: 'text/html' });
-                var blobUrl = URL.createObjectURL(blob);
-
-                // Создаем невидимую ссылку для скачивания/открытия Blob
-                var a = document.createElement('a');
-                a.href = blobUrl;
-                // Трюк: заставляем iOS думать, что это скачивание файла, ломая ин-апп контекст
-                a.download = "redirect.html"; 
-                document.body.appendChild(a);
-                a.click();
-                
-                // Мягкий фолбек, если интент загрузки сработал как обычный переход
-                setTimeout(function() {
-                    window.location.href = targetUrl;
-                }, 300);
+            // 2. Для iOS (iPhone) внутри Инсты пускаем напрямую через openonlyfans
+            if (/iPhone|iPad|iPod/i.test(userAgent) && (userAgent.includes('Instagram') || userAgent.includes('FBAN') || userAgent.includes('FBAV'))) {
+                window.location.href = openOfUrl; 
                 return;
             }
 
-            // 3. Дефолтный переход для обычных браузеров (ПК, Safari вне Инсты и т.д.)
-            window.location.href = targetUrl;
+            // 3. Для обычных браузеров и ПК пускаем на прямой линк
+            window.location.href = directOfUrl;
         });
     </script>
 
