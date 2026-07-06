@@ -5,50 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jade ASMR</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
+        }
+        body, html {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #121212;
             font-family: Arial, sans-serif;
+            overflow: hidden;
+            background-color: #121212;
         }
+
+        /* Настройки для фонового видео */
+        .background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Растягивает видео без искажений на весь экран */
+            z-index: 1;
+        }
+
+        /* Затемнение фона для лучшей читаемости текста */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: 2;
+        }
+
+        /* Стилизация кнопки */
         .of-button {
+            position: relative;
+            z-index: 3;
             display: inline-block;
-            padding: 22px 45px;
+            padding: 24px 40px;
             font-size: 22px;
             font-weight: bold;
             color: #ffffff;
-            background-color: #00aff0; /* Фирменный цвет OnlyFans */
+            text-align: center;
+            background: rgba(0, 175, 240, 0.85); /* Полупрозрачный фирменный цвет OnlyFans */
             text-decoration: none;
             border-radius: 50px;
-            box-shadow: 0 6px 20px rgba(0, 175, 240, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 175, 240, 0.5);
+            backdrop-filter: blur(5px); /* Эффект размытия стекла за кнопкой */
+            -webkit-backdrop-filter: blur(5px);
             transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+            max-width: 90%;
         }
+
         .of-button:hover {
-            background-color: #008cc0;
+            background-color: rgba(0, 140, 192, 0.95);
             transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 175, 240, 0.6);
+            box-shadow: 0 12px 35px rgba(0, 175, 240, 0.7);
         }
     </style>
 </head>
 <body>
 
-    <a href="https://onlyfans.com/jadelyn" id="of-link" class="of-button">Открыть мой OnlyFans</a>
+    <video class="background-video" autoplay loop muted playsinline>
+        <source src="0706(1).mp4" type="video/mp4">
+    </video>
+
+    <div class="overlay"></div>
+
+    <a href="https://onlyfans.com/jadelyn" id="of-link" class="of-button">Solo Tu y Yo / Only You and Me 🫶</a>
 
     <script>
-        // Трюк для принудительного открытия в дефолтном браузере на Android
+        // Принудительное открытие ссылки в дефолтном браузере на Android
         document.getElementById('of-link').addEventListener('click', function(e) {
-            // ВНИМАНИЕ: И здесь тоже замени ТВОЙ_НИК на свой юзернейм OnlyFans
             var url = "https://onlyfans.com/jadelyn";
             
             if (/Android/i.test(navigator.userAgent)) {
                 e.preventDefault();
                 window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
             }
-            // На iOS (iPhone) ссылка сработает стандартно.
         });
     </script>
 
