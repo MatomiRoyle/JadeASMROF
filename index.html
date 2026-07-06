@@ -21,18 +21,18 @@
             background-color: #121212;
         }
 
-        /* Фоновое видео */
+        /* Настройки для фонового видео */
         .background-video {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* Растягивает видео без искажений на весь экран */
             z-index: 1;
         }
 
-        /* Затемнение фона */
+        /* Затемнение фона для лучшей читаемости текста */
         .overlay {
             position: absolute;
             top: 0;
@@ -53,16 +53,17 @@
             font-weight: bold;
             color: #ffffff;
             text-align: center;
-            background: rgba(0, 175, 240, 0.85); 
+            background: rgba(0, 175, 240, 0.85); /* Полупрозрачный фирменный цвет OnlyFans */
             text-decoration: none;
             border-radius: 50px;
             box-shadow: 0 10px 30px rgba(0, 175, 240, 0.5);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px); /* Эффект размытия стекла за кнопкой */
             -webkit-backdrop-filter: blur(5px);
             transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
             max-width: 90%;
+            
+            /* Сдвигаем кнопку вниз примерно на 4 см от центра экрана */
             margin-top: 150px; 
-            cursor: pointer;
         }
 
         .of-button:hover {
@@ -80,30 +81,17 @@
 
     <div class="overlay"></div>
 
-    <a id="of-link" class="of-button">Solo Tu y Yo / Only You and Me 🫶</a>
+    <a href="https://onlyfans.com/jadelyn" id="of-link" class="of-button">Solo Tu y Yo / Only You and Me 🫶</a>
 
     <script>
+        // Принудительное открытие ссылки в дефолтном браузере на Android
         document.getElementById('of-link').addEventListener('click', function(e) {
-            e.preventDefault();
+            var url = "https://onlyfans.com/jadelyn";
             
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            var openOfUrl = "https://openonlyfans.com/jadelyn";
-            var directOfUrl = "https://onlyfans.com/jadelyn";
-
-            // 1. Для Android используем железный Chrome-интент через зеркало openonlyfans
-            if (/Android/i.test(userAgent)) {
-                window.location.href = "intent://" + openOfUrl.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
-                return;
+            if (/Android/i.test(navigator.userAgent)) {
+                e.preventDefault();
+                window.location.href = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
             }
-
-            // 2. Для iOS (iPhone) внутри Инсты пускаем напрямую через openonlyfans
-            if (/iPhone|iPad|iPod/i.test(userAgent) && (userAgent.includes('Instagram') || userAgent.includes('FBAN') || userAgent.includes('FBAV'))) {
-                window.location.href = openOfUrl; 
-                return;
-            }
-
-            // 3. Для обычных браузеров и ПК пускаем на прямой линк
-            window.location.href = directOfUrl;
         });
     </script>
 
